@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta charset=utf-8>
+<title>Tests for Blob</title>
+<link rel=help href="http://dev.w3.org/2006/webapi/FileAPI/#constructorBlob">
+<link rel=author title="Jian Zhang" href="mailto:tallshort@gmail.com">
+ <meta name="assert" content="If the constructor argument is invalid, it will throw TypeError.">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script>
+
+test(function() {
+  var blob = new Blob();
+  assert_true(blob instanceof Blob);
+  assert_equals(blob.size, 0);
+  assert_equals(blob.type, "");
+}, "non-argument Blob constructor");
+
+test(function() {
+  blob = new Blob(["hello"]);
+  assert_equals(blob.size, 5);
+  assert_equals(blob.type, "");
+  var blob = new Blob(["hello", "world"]);
+  assert_equals(blob.size, 10);
+}, "one-argument Blob constructor");
+
+test(function() {
+  assert_throws(new TypeError(), function() {
+    new Blob(1234);
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob(document);
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob(window);
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob(undefined);
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob(null);
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob(false);
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob('a');
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob(1/0);
+  });
+  assert_throws(new TypeError(), function() {
+    new Blob(function(a, b) { return a + b; });
+  });
+}, "Invalid first argument");
+
+</script>
